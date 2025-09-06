@@ -3,19 +3,22 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
-import { useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"      // <-- import dispatch
 import { addUser } from "../utils/userSlice"
 import { BASE_URL } from "../utils/constants"
 
-function Login() {
+function Signup() {
+  const dispatch = useDispatch()               // <-- initialize dispatch
+
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   })
 
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
-  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -24,32 +27,31 @@ function Login() {
       [e.target.name]: e.target.value,
     })
   }
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setErrorMessage("");
-  
+    e.preventDefault()
+    setIsLoading(true)
+    setErrorMessage("")
+
     try {
-      const response = await axios.post(`${BASE_URL}/login`, formData, {
+      const res = await axios.post(`${BASE_URL}/signup`, formData, {
         withCredentials: true,
-      });
-      console.log("✅ API Response:", response.data);
-      dispatch(addUser(response.data));
-  
-      // Page reload ke saath redirect karo
-      window.location.href = "/profile";  // ye pura page reload karega aur profile pe le jaayega
+      })
+      console.log("✅ Signup successful:", res.data)
+
+      // Dispatch user data to Redux store
+      dispatch(addUser(res.data))
+
+      navigate("/login")
     } catch (error) {
-      console.log("❌ API Error:", error.response?.data || error.message);
-      if (error.response?.status === 401) {
-        setErrorMessage("Invalid credentials");
-      } else {
-        setErrorMessage(error.response?.data?.message || "Invalid Credentials");
-      }
+      console.error("❌ Signup error:", error)
+      const msg = error.response?.data?.message || "Something went wrong"
+      setErrorMessage(msg)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
-  
+  }
+
   return (
     <div className="min-h-screen w-full bg-[#020617] relative flex items-center justify-center p-6">
       {/* Enhanced Red Radial Glow Background */}
@@ -100,10 +102,11 @@ function Login() {
           backgroundSize: "15px 15px",
         }}
       />
-      <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-stretch bg-white rounded-3xl shadow-2xl overflow-hidden relative z-10">
+      {/* Container with shared rounded corners and shadow */}
+      <div className="w-full max-w-5xl flex rounded-3xl shadow-xl overflow-hidden bg-white relative z-10">
 
-        {/* LEFT SIDE - Info panel */}
-        <div className="hidden lg:flex bg-gradient-to-br from-red-500 to-red-600 text-white p-12 flex-col justify-center relative overflow-hidden">
+        {/* LEFT SIDE */}
+        <div className="hidden lg:flex flex-col justify-center bg-gradient-to-br from-red-500 to-red-600 p-16 text-white flex-1 relative overflow-hidden">
           {/* Reddish Black Texture Background */}
           <div
             className="absolute inset-0 z-0"
@@ -158,41 +161,68 @@ function Login() {
               backgroundSize: "100px 100px",
             }}
           />
-          <div className="text-center space-y-6 relative z-10">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-2xl mx-auto">
-              <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <div className="flex justify-center mb-10 relative z-10">
+            <div className="bg-white/20 rounded-3xl p-6">
+              <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
               </svg>
             </div>
-            <h1 className="text-4xl font-extrabold">DevMatch</h1>
-            <p className="text-lg">Connect. Code. Collaborate.</p>
-            <ul className="text-sm space-y-4 text-left">
-              <li>✅ Match with skilled developers</li>
-              <li>🚀 Build amazing projects</li>
-              <li>🌐 Expand your network</li>
-            </ul>
           </div>
+          <h1 className="text-5xl font-extrabold mb-4 relative z-10">DevMatch</h1>
+          <p className="text-lg max-w-md leading-relaxed mb-10 relative z-10">
+            Find your dev match now. Connect, collaborate, and create projects with like-minded developers.
+          </p>
+          <ul className="space-y-4 text-white text-sm relative z-10">
+            <li>✅ Match with skilled developers</li>
+            <li>🚀 Work on exciting projects together</li>
+            <li>🌐 Grow your professional network</li>
+          </ul>
         </div>
 
-        {/* RIGHT SIDE - Form */}
-        <div className="w-full p-8 md:p-12 flex flex-col justify-center">
-          <div className="mb-8 text-center">
-            <h2 className="text-3xl font-bold text-slate-800">Welcome back</h2>
-            <p className="text-slate-500 text-sm">Sign in to continue your developer journey</p>
-          </div>
+        {/* RIGHT SIDE FORM */}
+        <div className="flex-1 p-10 max-w-md mx-auto">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Create Account</h2>
+          <p className="text-center text-gray-600 mb-8">Join the community of developers</p>
 
-          {/* Error Message */}
           {errorMessage && (
-            <div className="mb-6 p-3 rounded-xl bg-red-100 border border-red-200 text-red-700 text-sm font-medium text-center shadow-sm">
+            <div className="mb-6 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm text-center font-semibold shadow-sm">
               {errorMessage}
             </div>
           )}
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-2">First Name</label>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                  placeholder="John"
+                  className="w-full px-5 py-3 border border-gray-300 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-semibold text-gray-700 mb-2">Last Name</label>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                  placeholder="Doe"
+                  className="w-full px-5 py-3 border border-gray-300 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition"
+                />
+              </div>
+            </div>
+
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
-                Email address
-              </label>
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
               <input
                 id="email"
                 name="email"
@@ -200,15 +230,13 @@ function Login() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-red-500 focus:outline-none"
                 placeholder="you@example.com"
+                className="w-full px-5 py-3 border border-gray-300 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
-                Password
-              </label>
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
               <input
                 id="password"
                 name="password"
@@ -216,43 +244,42 @@ function Login() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-red-500 focus:outline-none"
-                placeholder="••••••••••"
+                placeholder="Create a strong password"
+                className="w-full px-5 py-3 border border-gray-300 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-4 px-6 bg-red-500 text-white font-semibold rounded-xl hover:bg-red-600 focus:ring-2 focus:ring-red-500 transition-all duration-200 shadow-md"
+              className="w-full py-4 mt-2 bg-red-500 text-white font-semibold rounded-2xl hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-400 disabled:opacity-60 disabled:cursor-not-allowed transition-shadow shadow-md hover:shadow-lg flex justify-center items-center gap-3"
             >
               {isLoading ? (
-                <div className="flex items-center justify-center gap-3">
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Signing in...</span>
-                </div>
+                <>
+                  <div className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin"></div>
+                  <span>Creating account...</span>
+                </>
               ) : (
-                "Sign in"
+                "Sign up"
               )}
             </button>
           </form>
 
-          <div className="mt-8 text-center text-sm text-slate-600">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-red-500 hover:text-red-600 font-semibold">
-              Sign up
+          <p className="text-center mt-8 text-gray-600">
+            Already have an account?{" "}
+            <Link to="/login" className="text-red-500 font-semibold hover:text-red-600 transition-colors">
+              Sign in
             </Link>
-          </div>
+          </p>
 
-          <div className="mt-4 text-center">
-            <Link to="/" className="text-slate-400 hover:text-slate-600 text-sm">
-              ← Back to home
-            </Link>
-          </div>
+          <p className="text-center mt-4 text-gray-500 text-sm hover:text-gray-700 transition-colors cursor-pointer">
+            <Link to="/">← Back to home</Link>
+          </p>
         </div>
+
       </div>
     </div>
   )
 }
 
-export default Login
+export default Signup

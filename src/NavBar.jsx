@@ -26,11 +26,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* ✅ Devtinder Logo pe Link */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/feed" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-sm">💚</span>
             </div>
-            <span className="text-xl font-bold text-foreground">Devtinder</span>
+            <span className="text-xl font-bold text-foreground">DevMatch</span>
           </Link>
 
           <div className="flex items-center space-x-4">
@@ -60,10 +60,16 @@ const Navbar = () => {
                     
                     {/* ✅ Settings placeholder (future route ban sakta hai) */}
                     <Link
-                      to="/settings"
+                      to="/connections"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      Settings
+                      Connections
+                    </Link>
+                      <Link
+                      to="/requests"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Requests
                     </Link>
 
                     {/* ✅ Logout button */}

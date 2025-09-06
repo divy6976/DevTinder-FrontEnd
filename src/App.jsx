@@ -8,6 +8,10 @@ import { useEffect } from "react"
 import { addUser } from "./utils/userSlice"
 import { BASE_URL } from "./utils/constants"
 import axios from "axios"
+import Profile from "./components/Profile"
+import Connections from "./components/Connections"
+import Requests from "./components/Requests"
+import Signup from "./components/Signup"
 
 function AppContent() {
   const dispatch = useDispatch()
@@ -36,8 +40,13 @@ function AppContent() {
     <div className="min-h-screen bg-background text-foreground">
       <Routes>
         <Route path="/" element={<Home />} />
+         <Route path="/signup" element={<Signup />} />
+
+        <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/feed" element={<Feed />} />
+        <Route path="/connections" element={<Connections />} />
+        <Route path="/requests" element={<  Requests/>} />
       </Routes>
     </div>
   )
