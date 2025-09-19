@@ -1,2 +1,86 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* Theme tokens and light/dark surfaces */
+@layer base {
+  :root {
+    --background: #0b1220;
+    --foreground: #e6e8ee;
+    --muted: #0f172a;
+    --muted-foreground: #94a3b8;
+    --card: #0c1424;
+    --card-foreground: #e6e8ee;
+    --popover: #0c1424;
+    --popover-foreground: #e6e8ee;
+    --border: #1f2937;
+    --input: #1f2937;
+    --ring: #ef4444;
+
+    --primary: #ef4444; /* red-500 */
+    --primary-foreground: #ffffff;
+
+    --secondary: #22c55e; /* green-500 accent */
+    --secondary-foreground: #052e16;
+
+    --accent: #38bdf8; /* sky-400 */
+    --accent-foreground: #082f49;
+
+    --radius: 14px;
+  }
+
+  html, body, #root {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Utilities mapping to theme tokens so JSX classes work across the app */
+@layer utilities {
+  .bg-background { background-color: var(--background) !important; }
+  .text-foreground { color: var(--foreground) !important; }
+  .bg-muted { background-color: var(--muted) !important; }
+  .text-muted-foreground { color: var(--muted-foreground) !important; }
+  .bg-card { background-color: var(--card) !important; }
+  .text-card-foreground { color: var(--card-foreground) !important; }
+  .bg-popover { background-color: var(--popover) !important; }
+  .text-popover-foreground { color: var(--popover-foreground) !important; }
+  .border-border { border-color: var(--border) !important; }
+  .bg-input { background-color: var(--input) !important; }
+  .ring-primary { --tw-ring-color: var(--ring) !important; }
+
+  .bg-primary { background-color: var(--primary) !important; }
+  .text-primary-foreground { color: var(--primary-foreground) !important; }
+
+  .bg-secondary { background-color: var(--secondary) !important; }
+  .text-secondary-foreground { color: var(--secondary-foreground) !important; }
+
+  .bg-accent { background-color: var(--accent) !important; }
+  .text-accent-foreground { color: var(--accent-foreground) !important; }
+
+  .rounded-app { border-radius: var(--radius) !important; }
+}
+
+/* Subtle modern scrollbars */
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  *::-webkit-scrollbar { height: 10px; width: 10px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(148, 163, 184, 0.35);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(148, 163, 184, 0.55);
+  }
+}

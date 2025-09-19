@@ -34,7 +34,7 @@ const UserCard = ({ user }) => {
   };
 
   return (
-    <div className="relative max-w-sm w-full bg-white rounded-3xl shadow-2xl overflow-hidden mx-auto transform transition-transform duration-300 hover:scale-105">
+    <div className="relative max-w-sm w-full bg-card text-card-foreground rounded-3xl shadow-2xl overflow-hidden mx-auto transform transition-transform duration-300 hover:scale-105 border border-border">
       {/* Profile Image with overlay */}
       <div className="relative h-[400px] w-full">
         <img
@@ -52,14 +52,14 @@ const UserCard = ({ user }) => {
             {firstName} {lastName}
             {age && `, ${age}`}
           </h2>
-          <p className="text-sm capitalize">{gender}</p>
+          <p className="text-sm capitalize opacity-90">{gender}</p>
         </div>
       </div>
 
       {/* About Section */}
       {about && (
         <div className="p-4">
-          <p className="text-gray-700 text-sm leading-relaxed">{about}</p>
+          <p className="text-muted-foreground text-sm leading-relaxed">{about}</p>
         </div>
       )}
 
@@ -67,13 +67,13 @@ const UserCard = ({ user }) => {
       <div className="flex justify-around px-6 pb-6">
         <button
           onClick={() => handleSendRequest("ignore", _id)}
-          className="w-24 py-2 rounded-full bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 transition"
+          className="w-24 py-2 rounded-full bg-muted text-foreground/90 font-semibold hover:opacity-90 transition border border-border"
         >
           Ignore
         </button>
         <button
           onClick={() => handleSendRequest("interested", _id)}
-          className="w-32 py-2 rounded-full bg-pink-600 text-white font-semibold hover:bg-pink-700 transition"
+          className="w-32 py-2 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition shadow"
         >
           Interested
         </button>

@@ -148,29 +148,33 @@ const Requests = () => {
               </p>
             )}
 
-            {/* Accept/Reject Buttons */}
-            <div className="flex gap-8">
-              <button
-                onClick={() => {
-                  reviewRequest('rejected', currentRequest._id)
-                  setCurrentIndex((prev) => Math.min(prev + 1, requests.length - 1))
-                }}
-                className="w-20 h-20 bg-red-500 rounded-full text-white text-2xl font-bold shadow-lg hover:bg-red-600 transition"
-                title="Reject"
-              >
-                ×
-              </button>
-              <button
-                onClick={() => {
-                  reviewRequest('accepted', currentRequest._id)
-                  setCurrentIndex((prev) => Math.min(prev + 1, requests.length - 1))
-                }}
-                className="w-20 h-20 bg-green-500 rounded-full text-white text-2xl font-bold shadow-lg hover:bg-green-600 transition"
-                title="Accept"
-              >
-                ✓
-              </button>
-            </div>
+         {/* Accept/Reject Buttons */}
+<div className="flex gap-6">
+  {/* Reject Button */}
+  <button
+    onClick={() => {
+      reviewRequest('rejected', currentRequest._id)
+      setCurrentIndex((prev) => Math.min(prev + 1, requests.length - 1))
+    }}
+    className="px-6 py-3 bg-red-600 text-white text-base md:text-lg font-semibold rounded-xl shadow-md hover:bg-red-700 hover:scale-105 transition-all duration-200 ease-in-out"
+    title="Reject"
+  >
+    Reject
+  </button>
+
+  {/* Accept Button */}
+  <button
+    onClick={() => {
+      reviewRequest('accepted', currentRequest._id)
+      setCurrentIndex((prev) => Math.min(prev + 1, requests.length - 1))
+    }}
+    className="px-6 py-3 bg-green-600 text-white text-base md:text-lg font-semibold rounded-xl shadow-md hover:bg-green-700 hover:scale-105 transition-all duration-200 ease-in-out"
+    title="Accept"
+  >
+    Accept
+  </button>
+</div>
+
           </div>
         ) : (
           <h2 className="text-center text-white text-2xl mt-20">

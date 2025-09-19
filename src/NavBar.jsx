@@ -26,18 +26,18 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* ✅ Devtinder Logo pe Link */}
-          <Link to="/feed" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+          <Link to="/feed" className="flex items-center space-x-2 group">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center transition-transform group-hover:rotate-6">
               <span className="text-primary-foreground font-bold text-sm">💚</span>
             </div>
-            <span className="text-xl font-bold text-foreground">DevMatch</span>
+            <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">DevMatch</span>
           </Link>
 
           <div className="flex items-center space-x-4">
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 hover:border-gray-300 transition-colors"
+                className="w-10 h-10 rounded-full overflow-hidden border-2 border-border hover:opacity-90 transition"
               >
                 <img
                   alt="User Avatar"
@@ -47,27 +47,27 @@ const Navbar = () => {
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50">
+                <div className="absolute right-0 mt-2 w-56 bg-card text-foreground rounded-app shadow-2xl border border-border z-50 overflow-hidden">
                   <div className="py-1">
                     {/* ✅ Profile link */}
                     <Link
                       to="/profile"
-                      className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center justify-between px-4 py-2 text-sm hover:bg-muted/60 transition-colors"
                     >
                       Profile
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                      <span className="bg-accent/20 text-accent-foreground text-xs px-2 py-1 rounded-full">New</span>
                     </Link>
                     
                     {/* ✅ Settings placeholder (future route ban sakta hai) */}
                     <Link
                       to="/connections"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block px-4 py-2 text-sm hover:bg-muted/60 transition-colors"
                     >
                       Connections
                     </Link>
                       <Link
                       to="/requests"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block px-4 py-2 text-sm hover:bg-muted/60 transition-colors"
                     >
                       Requests
                     </Link>
@@ -75,7 +75,7 @@ const Navbar = () => {
                     {/* ✅ Logout button */}
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-muted/60 transition-colors"
                     >
                       Logout
                     </button>
